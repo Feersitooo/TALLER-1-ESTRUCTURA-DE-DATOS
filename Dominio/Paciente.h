@@ -5,11 +5,13 @@ private:
     string id;
     string nombre;
     int edad;
+    string servicio;
 public:
-    Paciente(string id, string nombre, int edad) {
+    Paciente(string id, string nombre, int edad, string servicio) {
         this->id = id;
         this->nombre = nombre;
         this->edad = edad;
+        this->servicio = servicio;
     }
     string getId() {
         return this->id;
@@ -19,6 +21,9 @@ public:
     }
     int getEdad() {
         return this->edad;
+    }
+    string getServicio() {
+        return this->servicio;
     }
     ~Paciente() {}
 };

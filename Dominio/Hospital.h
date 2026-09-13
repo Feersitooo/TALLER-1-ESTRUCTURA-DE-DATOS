@@ -1,6 +1,7 @@
 #include "NodeServicios.h"
 #include "ServicioMedico.h"
-#include "NodePacientes.h"
+#include "ColaPacientes.h"
+#include "PilaHistorial.h"
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -9,7 +10,8 @@ using namespace std;
 class Hospital {
 private:
     NodeServicios* servicios;
-    NodePacientes* pacientes;
+    ColaPacientes filaEspera;
+    PilaHistorial historial;
     ServicioMedico* crearServicioMedico(const string& nombre);
 public:
     Hospital();
@@ -19,6 +21,8 @@ public:
     void agregarServicioMedico(ServicioMedico* servicioMedico);
     bool existePaciente(const string& id);
     void crearPaciente(string linea);
+
     void atenderPacientes();
+    void mostrarHistorial();
     ~Hospital();
 };

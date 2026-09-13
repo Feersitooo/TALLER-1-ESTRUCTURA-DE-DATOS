@@ -5,7 +5,6 @@
 using namespace std;
 
 Hospital::Hospital() {
-    this-> pacientes = nullptr;
     this -> servicios = nullptr;
 }
 ServicioMedico* Hospital::crearServicioMedico(const string& nombre) {
@@ -22,16 +21,11 @@ ServicioMedico* Hospital::crearServicioMedico(const string& nombre) {
 }
 
 void Hospital::agregarPaciente(Paciente *p) {
-    NodePacientes* nuevo = new NodePacientes(p);
-    if (this-> pacientes == nullptr) {
-        this-> pacientes = nuevo;
+    if (!existePaciente(p->getId())) {
+        filaEspera.push(p);
     }
     else {
-        NodePacientes* cursor = pacientes;
-        while (cursor->getNext() != nullptr){
-            cursor = cursor->getNext();
-        }
-        cursor->setNext(nuevo);
+        cout << p->getId() << " ya se encuentra en la fila"<< endl;
     }
 }
 
@@ -66,15 +60,8 @@ void Hospital::agregarServicioMedico(ServicioMedico *servicioMedico) {
 }
 
 bool Hospital::existePaciente(const string &id) {
-    if (this-> pacientes == nullptr) {
-        return false;
-    }
-    NodePacientes* cursor = this-> pacientes;
-    while (cursor != nullptr) {
-        if (cursor->getPaciente()->getId() == id) {
-            return true;
-        }
-        cursor = cursor->getNext();
+    if (filaEspera.existe(id)) {
+        return true;
     }
     return false;
 }
@@ -95,17 +82,11 @@ void Hospital::crearPaciente(string linea) {
     }
     bool existeP = existePaciente(id);
     if (!existeP) {
-        Paciente* paciente = new Paciente(id, nombre, edad);
+        Paciente* paciente = new Paciente(id, nombre, edad, servicio);
         agregarPaciente(paciente);
     }
 }
 Hospital::~Hospital() {
-    NodePacientes* actualP = this-> pacientes;
-    while (actualP != nullptr) {
-        NodePacientes* temp = actualP;
-        actualP = actualP->getNext();
-        delete temp;
-    }
     NodeServicios* actualS= this-> servicios;
     while (actualS != nullptr) {
         NodeServicios* temp = actualS;
