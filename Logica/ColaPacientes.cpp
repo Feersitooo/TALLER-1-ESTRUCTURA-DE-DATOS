@@ -1,4 +1,4 @@
-#pragma once
+
 #include "../Dominio/ColaPacientes.h"
 #include <string>
 using namespace std;
@@ -50,7 +50,7 @@ void ColaPacientes::clear() {
 bool ColaPacientes::existe(const string &id) {
     NodePacientes* cursor = this-> cabeza;
     while (cursor != nullptr) {
-        if (cursor->getId() == id) {
+        if (cursor->getPaciente()->getId() == id) {
             return true;
         }
         cursor = cursor->getNext();

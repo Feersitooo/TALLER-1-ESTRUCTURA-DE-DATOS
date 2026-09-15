@@ -34,7 +34,6 @@ void menu(Hospital* h) {
         }
         switch (opcion) {
             case 1:
-                h->atenderPacientes();
                 break;
             case 2:
                 break;
