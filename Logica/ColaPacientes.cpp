@@ -24,6 +24,7 @@ void ColaPacientes::push(Paciente* p){
         this-> cola ->setNext(nuevo);
         this-> cola = nuevo;
     }
+    this->tamano++;
 }
 void ColaPacientes::pop() {
     if (empty()) return;
@@ -57,6 +58,13 @@ bool ColaPacientes::existe(const string &id) {
     }
     return false;
 }
+
+NodePacientes *ColaPacientes::getPacientes() {
+    if (this-> cabeza == nullptr) return nullptr;
+    return this-> cabeza;
+}
+
+
 ColaPacientes::~ColaPacientes() {
     clear();
 }

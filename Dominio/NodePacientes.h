@@ -31,7 +31,8 @@ public:
         }
         return c;
     }
+
     ~NodePacientes() {
-        delete paciente;
+        this-> next = nullptr;
     }
 };

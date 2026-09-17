@@ -16,6 +16,7 @@ private:
     int size();
     bool empty();
     bool existe(const string& id);
+    NodePacientes* getPacientes();
 
     ~ColaPacientes();
 };

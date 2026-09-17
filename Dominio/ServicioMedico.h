@@ -12,6 +12,7 @@ public:
     string getNombre() const{
         return this->nombre;
     }
+    
     virtual ~ServicioMedico() {
         NodePacientes* cursor = this->pacientes;
         while (cursor != nullptr) {
@@ -23,7 +24,37 @@ public:
      void mostrarPacientes() const {
          // pacientes
      }
+    bool existePaciente(const string& id) const { // COMPROBAMOS SI EL PACIENTE EXISTE EN EL SERVICIO CORRESPONDIENTE
+        NodePacientes* cursor = this-> pacientes;
+        while (cursor != nullptr) {
+            if (cursor -> getPaciente() != nullptr && cursor->getPaciente()-> getId() == id) {
+                return true;
+            }
+            cursor = cursor->getNext();
+        }
+        return false;
 
+    }
+    virtual void agregarPaciente(Paciente * p) { // AQUI YA SE DERIVA EL PACIENTE AL SERVICIO
+        if (p == nullptr) return;
+        if (existePaciente(p->getId())) {
+            cout << "El paciente " << p->getId() << " ya se encuentra como paciente" << endl;
+            return;
+        }
+        NodePacientes* nuevo = new NodePacientes(p);
+        if (this-> pacientes == nullptr) {
+            this-> pacientes = nuevo;
+        }
+        else {
+            NodePacientes* cursor = this-> pacientes;
+            while (cursor->getNext() != nullptr) {
+                cursor = cursor -> getNext();
+            }
+            cursor -> setNext(nuevo);
+        }
+
+
+    }
 };
 class Urgencia : public ServicioMedico {
 public:

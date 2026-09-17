@@ -40,7 +40,7 @@ string PilaHistorial::top() {
 }
 
 void PilaHistorial::clear() {
-    if (!empty()) {
+    while (!empty()) {
         pop();
     }
 }

@@ -30,14 +30,24 @@ void menu(Hospital* h) {
         if (cin.fail()) {
             cin.clear();
             cin.ignore(1000, '\n');
-            opcion = -1; // Fuerza la opcion por defecto
         }
         switch (opcion) {
             case 1:
+                int opcion;
+                h-> mostrarPacientes();
+                cout << "Cuantos pacientes quiere atender: ";
+                cin >> opcion;
+                if (cin.fail()) {
+                    cout<<"Opcion incorrecta"<<endl;
+                    cin.clear();
+                    cin.ignore(1000, '\n');
+                }
+                h->atenderPacientes(opcion);
                 break;
             case 2:
                 break;
             case 3:
+                h->mostrarHistorial();
                 break;
             case 4:
                 cout << "Adios... :D" << endl;

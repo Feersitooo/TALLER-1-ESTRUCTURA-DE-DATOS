@@ -6,6 +6,9 @@ using namespace std;
 
 Hospital::Hospital() {
     this -> servicios = nullptr;
+    this-> filaEspera = new ColaPacientes();
+    this-> historial = new PilaHistorial();
+
 }
 ServicioMedico* Hospital::crearServicioMedico(const string& nombre) {
     if (nombre == "Urgencia") return new Urgencia();
@@ -22,7 +25,7 @@ ServicioMedico* Hospital::crearServicioMedico(const string& nombre) {
 
 void Hospital::agregarPaciente(Paciente *p) {
     if (!existePaciente(p->getId())) {
-        filaEspera.push(p);
+        filaEspera->push(p);
     }
     else {
         cout << p->getId() << " ya se encuentra en la fila"<< endl;
@@ -60,7 +63,7 @@ void Hospital::agregarServicioMedico(ServicioMedico *servicioMedico) {
 }
 
 bool Hospital::existePaciente(const string &id) {
-    if (filaEspera.existe(id)) {
+    if (filaEspera->existe(id)) {
         return true;
     }
     return false;
@@ -86,6 +89,72 @@ void Hospital::crearPaciente(string linea) {
         agregarPaciente(paciente);
     }
 }
+void Hospital::mostrarPacientes() {
+    if (this -> filaEspera-> empty()) {
+        cout << "No hay pacientes en fila " << endl;
+        return;
+    }
+    NodePacientes* pacientes = filaEspera->getPacientes();
+    int c = 1;
+    while (pacientes != nullptr) {
+        cout << c << " - " <<pacientes->getPaciente() ->getNombre() << endl;
+        c++;
+        pacientes = pacientes->getNext();
+    }
+}
+ServicioMedico* Hospital::buscarServicioMedico(const string & servicio) {
+    if (servicios == nullptr) return nullptr;
+    NodeServicios* cursor = this-> servicios;
+    while (cursor != nullptr) {
+        if (cursor->getServicio()->getNombre() == servicio) {
+            return cursor->getServicio();
+        }
+        cursor = cursor->getNext();
+    }
+    return nullptr;
+}
+void Hospital::atenderPacientes(int opcion) {
+    if (this-> filaEspera->empty()) return;
+    if (opcion < 1 || opcion > this-> filaEspera->size()) {
+        cout << "Cantidad incorrecta" << endl;
+        return;
+    }
+
+    for (int i = 0; i < opcion; i++) {
+        Paciente* p = filaEspera->front(); //obtenemos paciente
+        string servicio = p -> getServicio(); // obtenemos su atributo del servicio para derivarlo
+        ServicioMedico* serv = buscarServicioMedico(servicio);
+        if (serv != nullptr) {
+            serv->agregarPaciente(p);
+            filaEspera->pop(); // lo eliminamos de la fila espera pq ya esta siendo atendido
+            cout << "" << endl;
+            cout << " === ATENDIENDO PACIENTES ===" << endl;
+            cout<< "ID: " << p->getId() << endl;
+            cout << "Nombre: " << p->getNombre() << endl;
+            cout << "Edad: " << p->getEdad() << endl;
+            cout << "Servicio: " << p->getServicio() << endl;
+            cout<< "" << endl;
+            cout << "Paciente enviado a " << p->getServicio() << endl;
+
+            string r = "Nombre: " + p->getNombre() + " | Edad: " + to_string(p->getEdad()) + " | Departamento: " + servicio; // creamos el registro para el historial
+            historial->push(r);
+        }
+        else {
+            cout << "ERROR, EL SERVICIO NO EXISTE" << endl;
+        }
+    }
+
+}
+
+void Hospital::mostrarHistorial() {
+    cout << "HISTORIAL DE ATENCIONES " << endl;
+    if (historial->empty()) {
+        cout << "No hay atenciones registradas aun" << endl;
+        return;
+    }
+    this->historial->historial();
+}
+
 Hospital::~Hospital() {
     NodeServicios* actualS= this-> servicios;
     while (actualS != nullptr) {
@@ -93,4 +162,6 @@ Hospital::~Hospital() {
         actualS = actualS->getNext();
         delete temp;
     }
+    delete this -> filaEspera;
+    delete this -> historial;
 }

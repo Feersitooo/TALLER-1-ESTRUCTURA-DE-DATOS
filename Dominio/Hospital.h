@@ -10,8 +10,8 @@ using namespace std;
 class Hospital {
 private:
     NodeServicios* servicios;
-    ColaPacientes filaEspera;
-    PilaHistorial historial;
+    ColaPacientes* filaEspera;
+    PilaHistorial* historial;
     ServicioMedico* crearServicioMedico(const string& nombre);
 public:
     Hospital();
@@ -22,7 +22,10 @@ public:
     bool existePaciente(const string& id);
     void crearPaciente(string linea);
 
-    void atenderPacientes();
+    void mostrarPacientes(); // ESTA FUNCION ES PARA MOSTRAR LOS PACIENTES Y SELECCIONAR CUANTOS QUIERE ATENDER
+    ServicioMedico * buscarServicioMedico(const string & string);
+
+    void atenderPacientes(int opcion); // AQUI YA LOS ATENDEMOS
     void mostrarHistorial();
     ~Hospital();
 };
