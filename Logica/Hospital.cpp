@@ -169,7 +169,7 @@ void Hospital::mostrarPacientesServicio(const string& nombreServicio) {
     ServicioMedico* servicio = buscarServicioMedico(nombreServicio);
 
     if (servicio == nullptr) {
-        cout << "El servicio no existe." << endl;
+        cout << "A este servicio no llegara ningun paciente " << endl;
         return;
     }
 
