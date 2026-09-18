@@ -4,6 +4,7 @@
 #include <ostream>
 
 #include "../Dominio/NodePacientes.h"
+#include "../Dominio/ServicioMedico.h"
 
 PilaHistorial::PilaHistorial() {
     this-> tamano = 0;

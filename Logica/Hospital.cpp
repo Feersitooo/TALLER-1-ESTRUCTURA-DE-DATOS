@@ -23,6 +23,7 @@ ServicioMedico* Hospital::crearServicioMedico(const string& nombre) {
     return new ServicioMedico(nombre);
 }
 
+
 void Hospital::agregarPaciente(Paciente *p) {
     if (!existePaciente(p->getId())) {
         filaEspera->push(p);
@@ -30,6 +31,12 @@ void Hospital::agregarPaciente(Paciente *p) {
     else {
         cout << p->getId() << " ya se encuentra en la fila"<< endl;
     }
+}
+bool Hospital ::existeGente() {
+    if (filaEspera->empty()) {
+        return false;
+    }
+    return true;
 }
 
 bool Hospital::existeServicio(const string &nombre) {
@@ -102,6 +109,7 @@ void Hospital::mostrarPacientes() {
         pacientes = pacientes->getNext();
     }
 }
+
 ServicioMedico* Hospital::buscarServicioMedico(const string & servicio) {
     if (servicios == nullptr) return nullptr;
     NodeServicios* cursor = this-> servicios;
@@ -137,7 +145,9 @@ void Hospital::atenderPacientes(int opcion) {
             cout << "Paciente enviado a " << p->getServicio() << endl;
 
             string r = "Nombre: " + p->getNombre() + " | Edad: " + to_string(p->getEdad()) + " | Departamento: " + servicio; // creamos el registro para el historial
+
             historial->push(r);
+
         }
         else {
             cout << "ERROR, EL SERVICIO NO EXISTE" << endl;
@@ -145,8 +155,58 @@ void Hospital::atenderPacientes(int opcion) {
     }
 
 }
-
 void Hospital::mostrarHistorial() {
+    cout << "HISTORIAL DE ATENCIONES " << endl;
+    if (historial->empty()) {
+        cout << "No hay atenciones registradas aun" << endl;
+        return;
+    }
+    this->historial->historial();
+}
+
+void Hospital::mostrarPacientesServicio(const string& nombreServicio) {
+
+    ServicioMedico* servicio = buscarServicioMedico(nombreServicio);
+
+    if (servicio == nullptr) {
+        cout << "El servicio no existe." << endl;
+        return;
+    }
+
+    NodePacientes* cursor = servicio->getPacientes();
+
+    if (cursor == nullptr) {
+        cout << "No hay pacientes en " << nombreServicio << endl;
+        return;
+    }
+
+    cout << "=== PACIENTES DE " << nombreServicio << " ===" << endl;
+
+    while (cursor != nullptr) {
+
+        Paciente* paciente = cursor->getPaciente();
+
+        if (paciente != nullptr) {
+            cout << "ID: " << paciente->getId() << endl;
+            cout << "Nombre: " << paciente->getNombre() << endl;
+            cout << "Edad: " << paciente->getEdad() << endl;
+            cout << "Servicio: " << paciente->getServicio() << endl;
+            cout << "------------------------" << endl;
+        }
+
+        cursor = cursor->getNext();
+    }
+}
+
+
+
+
+
+
+
+
+
+void Hospital::MostrarAtencion() {
     cout << "HISTORIAL DE ATENCIONES " << endl;
     if (historial->empty()) {
         cout << "No hay atenciones registradas aun" << endl;

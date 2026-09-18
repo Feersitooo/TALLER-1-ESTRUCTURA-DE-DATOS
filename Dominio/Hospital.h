@@ -20,7 +20,11 @@ public:
     bool existeServicio(const string& nombre);
     void agregarServicioMedico(ServicioMedico* servicioMedico);
     bool existePaciente(const string& id);
+    bool existeGente();
     void crearPaciente(string linea);
+    void MostrarAtencion();
+
+    void mostrarPacientesServicio(const string& nombreServicio);
 
     void mostrarPacientes(); // ESTA FUNCION ES PARA MOSTRAR LOS PACIENTES Y SELECCIONAR CUANTOS QUIERE ATENDER
     ServicioMedico * buscarServicioMedico(const string & string);

@@ -1,4 +1,6 @@
 #include "NodePacientes.h"
+#include <ostream>
+#include <iostream>
 #pragma once
 class ServicioMedico {
 protected:
@@ -38,7 +40,7 @@ public:
     virtual void agregarPaciente(Paciente * p) { // AQUI YA SE DERIVA EL PACIENTE AL SERVICIO
         if (p == nullptr) return;
         if (existePaciente(p->getId())) {
-            cout << "El paciente " << p->getId() << " ya se encuentra como paciente" << endl;
+            std::cout << "El paciente " << p->getId() << " ya se encuentra como paciente" << endl;
             return;
         }
         NodePacientes* nuevo = new NodePacientes(p);
@@ -54,7 +56,15 @@ public:
         }
 
 
+
     }
+
+    NodePacientes* getPacientes() const {
+        return this->pacientes;
+    }
+
+
+
 };
 class Urgencia : public ServicioMedico {
 public:

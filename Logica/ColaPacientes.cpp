@@ -7,7 +7,6 @@ ColaPacientes::ColaPacientes() {
     this-> cola = nullptr;
     this-> tamano = 0;
 }
-
 int ColaPacientes::size() {
     return this-> tamano;
 }
@@ -58,13 +57,10 @@ bool ColaPacientes::existe(const string &id) {
     }
     return false;
 }
-
-NodePacientes *ColaPacientes::getPacientes() {
+NodePacientes* ColaPacientes::getPacientes() {
     if (this-> cabeza == nullptr) return nullptr;
     return this-> cabeza;
 }
-
-
 ColaPacientes::~ColaPacientes() {
     clear();
 }
