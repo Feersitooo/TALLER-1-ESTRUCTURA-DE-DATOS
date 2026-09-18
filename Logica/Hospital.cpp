@@ -23,6 +23,7 @@ ServicioMedico* Hospital::crearServicioMedico(const string& nombre) {
     return new ServicioMedico(nombre);
 }
 
+
 void Hospital::agregarPaciente(Paciente *p) {
     if (!existePaciente(p->getId())) {
         filaEspera->push(p);
@@ -30,6 +31,12 @@ void Hospital::agregarPaciente(Paciente *p) {
     else {
         cout << p->getId() << " ya se encuentra en la fila"<< endl;
     }
+}
+bool Hospital ::existeGente() {
+    if (filaEspera->empty()) {
+        return false;
+    }
+    return true;
 }
 
 bool Hospital::existeServicio(const string &nombre) {
@@ -76,20 +83,6 @@ void Hospital::crearPaciente(string linea) {
     getline(ss,nombre,';');
     getline(ss,edadString,';');
     getline(ss,servicio,';');
-    if (id.empty() || nombre.empty() || edadString.empty() || servicio.empty()) {
-        cout << "Linea invalida, se omite: " << linea << endl;
-        return;
-    }
-    for (char c : edadString) {
-        if (!isdigit(c)) {
-            cout << "Edad invalida en la linea, se omite: " << linea << endl;
-            return;
-        }
-    }
-    if (!esServicioValido(servicio)) {
-        cout << "Servicio no valido, se omite: " << linea << endl;
-        return;
-    }
     int edad = stoi(edadString);
 
     bool existeS = existeServicio(servicio);
@@ -116,6 +109,7 @@ void Hospital::mostrarPacientes() {
         pacientes = pacientes->getNext();
     }
 }
+
 ServicioMedico* Hospital::buscarServicioMedico(const string & servicio) {
     if (servicios == nullptr) return nullptr;
     NodeServicios* cursor = this-> servicios;
@@ -151,7 +145,9 @@ void Hospital::atenderPacientes(int opcion) {
             cout << "Paciente enviado a " << p->getServicio() << endl;
 
             string r = "Nombre: " + p->getNombre() + " | Edad: " + to_string(p->getEdad()) + " | Departamento: " + servicio; // creamos el registro para el historial
+
             historial->push(r);
+
         }
         else {
             cout << "ERROR, EL SERVICIO NO EXISTE" << endl;
@@ -159,7 +155,6 @@ void Hospital::atenderPacientes(int opcion) {
     }
 
 }
-
 void Hospital::mostrarHistorial() {
     cout << "HISTORIAL DE ATENCIONES " << endl;
     if (historial->empty()) {
@@ -169,77 +164,55 @@ void Hospital::mostrarHistorial() {
     this->historial->historial();
 }
 
-const string* Hospital::getServiciosValidos(int& n) {
+void Hospital::mostrarPacientesServicio(const string& nombreServicio) {
 
-    static const string servicios[] = {
-        "Urgencia", "Medicina General", "Cardiologia", "Neurologia",
-        "Traumatologia", "Cirugia", "Pediatria", "Hospitalizacion"
-    };
-    n = sizeof(servicios) / sizeof(servicios[0]);
-    return servicios;
-}
+    ServicioMedico* servicio = buscarServicioMedico(nombreServicio);
 
-bool Hospital::esServicioValido(const string& nombre) {
-    int n;
-    const string* inicio = getServiciosValidos(n);
-    for (const string* p = inicio; p < inicio + n; ++p) {
-        if (*p == nombre) return true;
-    }
-    return false;
-}
-
-void Hospital::mostrarDepartamentos() {
-    cout << "=== DEPARTAMENTOS/SERVICIOS ===" << endl;
-    int n;
-    const string* inicio = getServiciosValidos(n);
-    int c = 1;
-    for (const string* p = inicio; p < inicio + n; ++p, ++c) {
-        cout << c << ". " << *p << endl;
-    }
-}
-
-void Hospital::verDepartamento(int opcion) {
-    int n;
-    const string* inicio = getServiciosValidos(n);
-    if (opcion < 1 || opcion > n) {
-        cout << "Opcion invalida" << endl;
+    if (servicio == nullptr) {
+        cout << "El servicio no existe." << endl;
         return;
     }
-    const string* seleccionado = inicio + (opcion - 1);
-    ServicioMedico* serv = buscarServicioMedico(*seleccionado);
-    if (serv == nullptr) {
-        cout << "Ese servicio aun no tiene pacientes / no existe en la lista" << endl;
+
+    NodePacientes* cursor = servicio->getPacientes();
+
+    if (cursor == nullptr) {
+        cout << "No hay pacientes en " << nombreServicio << endl;
         return;
     }
-    cout << "=== ESTADO " << *seleccionado << " ===" << endl;
-    serv->mostrarPacientes();
-}
 
-void Hospital::buscarPaciente(const string& id) {
+    cout << "=== PACIENTES DE " << nombreServicio << " ===" << endl;
 
-    NodePacientes* cursor = filaEspera->getPacientes();
     while (cursor != nullptr) {
-        if (cursor->getPaciente()->getId() == id) {
-            Paciente* p = cursor->getPaciente();
-            cout << "Encontrado (en espera): " << p->getNombre()
-                 << " | Edad: " << p->getEdad()
-                 << " | Servicio destino: " << p->getServicio() << endl;
-            return;
+
+        Paciente* paciente = cursor->getPaciente();
+
+        if (paciente != nullptr) {
+            cout << "ID: " << paciente->getId() << endl;
+            cout << "Nombre: " << paciente->getNombre() << endl;
+            cout << "Edad: " << paciente->getEdad() << endl;
+            cout << "Servicio: " << paciente->getServicio() << endl;
+            cout << "------------------------" << endl;
         }
+
         cursor = cursor->getNext();
     }
+}
 
-    NodeServicios* s = servicios;
-    while (s != nullptr) {
-        Paciente* p = s->getServicio()->buscarPaciente(id);
-        if (p != nullptr) {
-            cout << "Encontrado (en " << s->getServicio()->getNombre() << "): "
-                 << p->getNombre() << " | Edad: " << p->getEdad() << endl;
-            return;
-        }
-        s = s->getNext();
+
+
+
+
+
+
+
+
+void Hospital::MostrarAtencion() {
+    cout << "HISTORIAL DE ATENCIONES " << endl;
+    if (historial->empty()) {
+        cout << "No hay atenciones registradas aun" << endl;
+        return;
     }
-    cout << "No se encontro ningun paciente con ID " << id << endl;
+    this->historial->historial();
 }
 
 Hospital::~Hospital() {
