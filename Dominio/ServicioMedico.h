@@ -16,13 +16,18 @@ public:
     }
     
     virtual ~ServicioMedico() {
-        NodePacientes* cursor = this->pacientes;
-        while (cursor != nullptr) {
-            NodePacientes* temp = cursor;
-            cursor = cursor->getNext();
-            delete temp;
-        }
+    NodePacientes* cursor = this->pacientes;
+    while (cursor != nullptr) {
+        NodePacientes* temp = cursor;
+        cursor = cursor->getNext();
+
+        delete temp->getPaciente();
+        delete temp;
     }
+
+    this->pacientes = nullptr;
+}
+
      void mostrarPacientes() const {
          // pacientes
      }
