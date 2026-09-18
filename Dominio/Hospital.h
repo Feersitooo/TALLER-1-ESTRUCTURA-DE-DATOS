@@ -20,6 +20,7 @@ public:
     bool existeServicio(const string& nombre);
     void agregarServicioMedico(ServicioMedico* servicioMedico);
     bool existePaciente(const string& id);
+    void buscarPaciente(const string& id);
     bool existeGente();
     void crearPaciente(string linea);
     void MostrarAtencion();

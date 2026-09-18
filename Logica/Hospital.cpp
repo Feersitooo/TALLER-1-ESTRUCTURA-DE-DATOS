@@ -5,11 +5,20 @@
 using namespace std;
 
 Hospital::Hospital() {
-    this -> servicios = nullptr;
-    this-> filaEspera = new ColaPacientes();
-    this-> historial = new PilaHistorial();
+    this->servicios = nullptr;
+    this->filaEspera = new ColaPacientes();
+    this->historial = new PilaHistorial();
 
+    agregarServicioMedico(crearServicioMedico("Urgencias"));
+    agregarServicioMedico(crearServicioMedico("Medicina General"));
+    agregarServicioMedico(crearServicioMedico("Cardiologia"));
+    agregarServicioMedico(crearServicioMedico("Neurologia"));
+    agregarServicioMedico(crearServicioMedico("Traumatologia"));
+    agregarServicioMedico(crearServicioMedico("Cirugia"));
+    agregarServicioMedico(crearServicioMedico("Pediatria"));
+    agregarServicioMedico(crearServicioMedico("Hospitalizacion"));
 }
+
 ServicioMedico* Hospital::crearServicioMedico(const string& nombre) {
     if (nombre == "Urgencias") return new Urgencias();
     if (nombre == "Medicina General") return new MedicinaGeneral();
@@ -24,11 +33,14 @@ ServicioMedico* Hospital::crearServicioMedico(const string& nombre) {
 }
 
 void Hospital::agregarPaciente(Paciente *p) {
+    if (p == nullptr) return;
+
     if (!existePaciente(p->getId())) {
         filaEspera->push(p);
     }
     else {
-        cout << p->getId() << " ya se encuentra en la fila"<< endl;
+        cout << p->getId() << " ya se encuentra en la fila" << endl;
+        delete p;
     }
 }
 bool Hospital ::existeGente() {
@@ -82,7 +94,67 @@ bool Hospital::existePaciente(const string &id) {
     }
     return false;
 }
+void Hospital::buscarPaciente(const string& id) {
 
+    NodePacientes* cursor = filaEspera->getPacientes();
+
+    while (cursor != nullptr) {
+
+        Paciente* paciente = cursor->getPaciente();
+
+        if (paciente != nullptr &&
+            paciente->getId() == id) {
+
+            cout << "=== PACIENTE EN ESPERA ===" << endl;
+            cout << "ID: " << paciente->getId() << endl;
+            cout << "Nombre: " << paciente->getNombre() << endl;
+            cout << "Edad: " << paciente->getEdad() << endl;
+            cout << "Servicio: " << paciente->getServicio() << endl;
+
+            return;
+            }
+
+        cursor = cursor->getNext();
+    }
+
+    NodeServicios* servicioActual = this->servicios;
+
+    while (servicioActual != nullptr) {
+
+        ServicioMedico* servicio =
+            servicioActual->getServicio();
+
+        NodePacientes* pacienteActual =
+            servicio->getPacientes();
+
+        while (pacienteActual != nullptr) {
+
+            Paciente* paciente =
+                pacienteActual->getPaciente();
+
+            if (paciente != nullptr &&
+                paciente->getId() == id) {
+
+                cout << "=== PACIENTE EN SERVICIO ===" << endl;
+                cout << "ID: " << paciente->getId() << endl;
+                cout << "Nombre: " << paciente->getNombre() << endl;
+                cout << "Edad: " << paciente->getEdad() << endl;
+                cout << "Servicio: " << paciente->getServicio() << endl;
+
+                return;
+                }
+
+            pacienteActual =
+                pacienteActual->getNext();
+        }
+
+        servicioActual =
+            servicioActual->getNext();
+    }
+
+
+    cout << "Paciente no encontrado." << endl;
+}
 void Hospital::crearPaciente(string linea) {
     char* datos = linea.data();
     int separadores = 0;

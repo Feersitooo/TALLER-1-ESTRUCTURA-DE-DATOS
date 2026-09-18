@@ -46,6 +46,7 @@ public:
         if (p == nullptr) return;
         if (existePaciente(p->getId())) {
             std::cout << "El paciente " << p->getId() << " ya se encuentra como paciente" << endl;
+            delete p;
             return;
         }
         NodePacientes* nuevo = new NodePacientes(p);
