@@ -15,4 +15,6 @@ public:
     int size();
     void historial();
     ~PilaHistorial();
+    void historialOrdenado();
+    void filtrarPorTipo();
 };
