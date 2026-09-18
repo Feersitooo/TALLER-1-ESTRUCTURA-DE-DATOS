@@ -72,6 +72,14 @@ bool Hospital::existePaciente(const string &id) {
     if (filaEspera->existe(id)) {
         return true;
     }
+    NodeServicios* cursor = this->servicios;
+
+    while (cursor != nullptr) {
+        if (cursor->getServicio()->existePaciente(id)) {
+            return true;
+        }
+        cursor = cursor->getNext();
+    }
     return false;
 }
 
