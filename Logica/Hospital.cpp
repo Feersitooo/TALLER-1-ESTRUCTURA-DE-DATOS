@@ -1,4 +1,4 @@
-#include "../Dominio\Hospital.h"
+#include "../Dominio/Hospital.h"
 #include <iostream>
 #include <sstream>
 #include <string>
