@@ -44,6 +44,8 @@ Paciente *ColaPacientes::front() {
 
 void ColaPacientes::clear() {
     while (!empty()) {
+        Paciente* p = front();
+        delete p;
         pop();
     }
 }
