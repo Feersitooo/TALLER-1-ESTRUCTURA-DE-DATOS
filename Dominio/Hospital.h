@@ -13,9 +13,6 @@ private:
     ColaPacientes* filaEspera;
     PilaHistorial* historial;
     ServicioMedico* crearServicioMedico(const string& nombre);
-    static const string* getServiciosValidos(int& n);
-    bool esServicioValido(const string& nombre);
-
 public:
     Hospital();
 
@@ -23,15 +20,16 @@ public:
     bool existeServicio(const string& nombre);
     void agregarServicioMedico(ServicioMedico* servicioMedico);
     bool existePaciente(const string& id);
+    bool existeGente();
     void crearPaciente(string linea);
-    void buscarPaciente(const string& id);
+    void MostrarAtencion();
+
+    void mostrarPacientesServicio(const string& nombreServicio);
+
     void mostrarPacientes(); // ESTA FUNCION ES PARA MOSTRAR LOS PACIENTES Y SELECCIONAR CUANTOS QUIERE ATENDER
     ServicioMedico * buscarServicioMedico(const string & string);
-    void mostrarDepartamentos();
-    void verDepartamento(int opcion);
+
     void atenderPacientes(int opcion); // AQUI YA LOS ATENDEMOS
     void mostrarHistorial();
-
-
     ~Hospital();
 };
