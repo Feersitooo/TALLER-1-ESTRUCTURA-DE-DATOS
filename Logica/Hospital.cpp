@@ -76,6 +76,20 @@ void Hospital::crearPaciente(string linea) {
     getline(ss,nombre,';');
     getline(ss,edadString,';');
     getline(ss,servicio,';');
+    if (id.empty() || nombre.empty() || edadString.empty() || servicio.empty()) {
+        cout << "Linea invalida, se omite: " << linea << endl;
+        return;
+    }
+    for (char c : edadString) {
+        if (!isdigit(c)) {
+            cout << "Edad invalida en la linea, se omite: " << linea << endl;
+            return;
+        }
+    }
+    if (!esServicioValido(servicio)) {
+        cout << "Servicio no valido, se omite: " << linea << endl;
+        return;
+    }
     int edad = stoi(edadString);
 
     bool existeS = existeServicio(servicio);
@@ -172,6 +186,60 @@ bool Hospital::esServicioValido(const string& nombre) {
         if (*p == nombre) return true;
     }
     return false;
+}
+
+void Hospital::mostrarDepartamentos() {
+    cout << "=== DEPARTAMENTOS/SERVICIOS ===" << endl;
+    int n;
+    const string* inicio = getServiciosValidos(n);
+    int c = 1;
+    for (const string* p = inicio; p < inicio + n; ++p, ++c) {
+        cout << c << ". " << *p << endl;
+    }
+}
+
+void Hospital::verDepartamento(int opcion) {
+    int n;
+    const string* inicio = getServiciosValidos(n);
+    if (opcion < 1 || opcion > n) {
+        cout << "Opcion invalida" << endl;
+        return;
+    }
+    const string* seleccionado = inicio + (opcion - 1);
+    ServicioMedico* serv = buscarServicioMedico(*seleccionado);
+    if (serv == nullptr) {
+        cout << "Ese servicio aun no tiene pacientes / no existe en la lista" << endl;
+        return;
+    }
+    cout << "=== ESTADO " << *seleccionado << " ===" << endl;
+    serv->mostrarPacientes();
+}
+
+void Hospital::buscarPaciente(const string& id) {
+
+    NodePacientes* cursor = filaEspera->getPacientes();
+    while (cursor != nullptr) {
+        if (cursor->getPaciente()->getId() == id) {
+            Paciente* p = cursor->getPaciente();
+            cout << "Encontrado (en espera): " << p->getNombre()
+                 << " | Edad: " << p->getEdad()
+                 << " | Servicio destino: " << p->getServicio() << endl;
+            return;
+        }
+        cursor = cursor->getNext();
+    }
+
+    NodeServicios* s = servicios;
+    while (s != nullptr) {
+        Paciente* p = s->getServicio()->buscarPaciente(id);
+        if (p != nullptr) {
+            cout << "Encontrado (en " << s->getServicio()->getNombre() << "): "
+                 << p->getNombre() << " | Edad: " << p->getEdad() << endl;
+            return;
+        }
+        s = s->getNext();
+    }
+    cout << "No se encontro ningun paciente con ID " << id << endl;
 }
 
 Hospital::~Hospital() {

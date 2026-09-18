@@ -22,7 +22,22 @@ public:
         }
     }
      void mostrarPacientes() const {
-         // pacientes
+
+        NodePacientes* cursor = this->pacientes;
+        int cantidad = 0;
+
+        while (cursor != nullptr) {
+            cantidad++;
+            cursor = cursor->getNext();
+        }
+        cout << "Pacientes en el departamento de " << nombre << ": " << cantidad << endl;
+        cursor = this->pacientes;
+        while (cursor != nullptr) {
+            Paciente* p = cursor->getPaciente();
+            cout << p->getNombre() << " (" << p->getEdad() << ")" << endl;
+            cursor = cursor->getNext();
+        }
+
      }
     bool existePaciente(const string& id) const { // COMPROBAMOS SI EL PACIENTE EXISTE EN EL SERVICIO CORRESPONDIENTE
         NodePacientes* cursor = this-> pacientes;
@@ -34,6 +49,17 @@ public:
         }
         return false;
 
+    }
+
+    Paciente* buscarPaciente(const string& id) const {
+        NodePacientes* cursor = this->pacientes;
+        while (cursor != nullptr) {
+            if (cursor->getPaciente() != nullptr && cursor->getPaciente()->getId() == id) {
+                return cursor->getPaciente();
+            }
+            cursor = cursor->getNext();
+        }
+        return nullptr;
     }
     virtual void agregarPaciente(Paciente * p) { // AQUI YA SE DERIVA EL PACIENTE AL SERVICIO
         if (p == nullptr) return;
