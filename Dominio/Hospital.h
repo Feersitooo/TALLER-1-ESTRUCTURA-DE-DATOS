@@ -13,6 +13,9 @@ private:
     ColaPacientes* filaEspera;
     PilaHistorial* historial;
     ServicioMedico* crearServicioMedico(const string& nombre);
+    static const string* getServiciosValidos(int& n);
+    bool esServicioValido(const string& nombre);
+    
 public:
     Hospital();
 
@@ -27,5 +30,7 @@ public:
 
     void atenderPacientes(int opcion); // AQUI YA LOS ATENDEMOS
     void mostrarHistorial();
+
+
     ~Hospital();
 };

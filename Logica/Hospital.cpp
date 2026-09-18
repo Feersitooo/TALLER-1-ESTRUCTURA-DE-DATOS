@@ -155,6 +155,25 @@ void Hospital::mostrarHistorial() {
     this->historial->historial();
 }
 
+const string* Hospital::getServiciosValidos(int& n) {
+
+    static const string servicios[] = {
+        "Urgencia", "Medicina General", "Cardiologia", "Neurologia",
+        "Traumatologia", "Cirugia", "Pediatria", "Hospitalizacion"
+    };
+    n = sizeof(servicios) / sizeof(servicios[0]);
+    return servicios;
+}
+
+bool Hospital::esServicioValido(const string& nombre) {
+    int n;
+    const string* inicio = getServiciosValidos(n);
+    for (const string* p = inicio; p < inicio + n; ++p) {
+        if (*p == nombre) return true;
+    }
+    return false;
+}
+
 Hospital::~Hospital() {
     NodeServicios* actualS= this-> servicios;
     while (actualS != nullptr) {
