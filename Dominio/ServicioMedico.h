@@ -1,4 +1,6 @@
 #include "NodePacientes.h"
+#include <ostream>
+#include <iostream>
 #pragma once
 class ServicioMedico {
 protected:
@@ -22,22 +24,7 @@ public:
         }
     }
      void mostrarPacientes() const {
-
-        NodePacientes* cursor = this->pacientes;
-        int cantidad = 0;
-
-        while (cursor != nullptr) {
-            cantidad++;
-            cursor = cursor->getNext();
-        }
-        cout << "Pacientes en el departamento de " << nombre << ": " << cantidad << endl;
-        cursor = this->pacientes;
-        while (cursor != nullptr) {
-            Paciente* p = cursor->getPaciente();
-            cout << p->getNombre() << " (" << p->getEdad() << ")" << endl;
-            cursor = cursor->getNext();
-        }
-
+         // pacientes
      }
     bool existePaciente(const string& id) const { // COMPROBAMOS SI EL PACIENTE EXISTE EN EL SERVICIO CORRESPONDIENTE
         NodePacientes* cursor = this-> pacientes;
@@ -50,21 +37,10 @@ public:
         return false;
 
     }
-
-    Paciente* buscarPaciente(const string& id) const {
-        NodePacientes* cursor = this->pacientes;
-        while (cursor != nullptr) {
-            if (cursor->getPaciente() != nullptr && cursor->getPaciente()->getId() == id) {
-                return cursor->getPaciente();
-            }
-            cursor = cursor->getNext();
-        }
-        return nullptr;
-    }
     virtual void agregarPaciente(Paciente * p) { // AQUI YA SE DERIVA EL PACIENTE AL SERVICIO
         if (p == nullptr) return;
         if (existePaciente(p->getId())) {
-            cout << "El paciente " << p->getId() << " ya se encuentra como paciente" << endl;
+            std::cout << "El paciente " << p->getId() << " ya se encuentra como paciente" << endl;
             return;
         }
         NodePacientes* nuevo = new NodePacientes(p);
@@ -80,7 +56,15 @@ public:
         }
 
 
+
     }
+
+    NodePacientes* getPacientes() const {
+        return this->pacientes;
+    }
+
+
+
 };
 class Urgencia : public ServicioMedico {
 public:
