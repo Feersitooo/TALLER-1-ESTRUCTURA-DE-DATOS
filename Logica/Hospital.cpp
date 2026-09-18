@@ -20,9 +20,8 @@ ServicioMedico* Hospital::crearServicioMedico(const string& nombre) {
     if (nombre == "Pediatria") return new Pediatria();
     if (nombre == "Hospitalizacion") return new Hospitalizacion();
 
-    return new ServicioMedico(nombre);
+    return nullptr;
 }
-
 
 void Hospital::agregarPaciente(Paciente *p) {
     if (!existePaciente(p->getId())) {
@@ -77,24 +76,74 @@ bool Hospital::existePaciente(const string &id) {
 }
 
 void Hospital::crearPaciente(string linea) {
-    stringstream ss(linea);
-    string id, nombre, edadString, servicio;
-    getline(ss,id,';');
-    getline(ss,nombre,';');
-    getline(ss,edadString,';');
-    getline(ss,servicio,';');
-    int edad = stoi(edadString);
+    char* datos = linea.data();
+    int separadores = 0;
 
-    bool existeS = existeServicio(servicio);
-    if (!existeS) {
-        ServicioMedico* servicioMedico = crearServicioMedico(servicio);
-        agregarServicioMedico(servicioMedico);
+    for (size_t i = 0; i < linea.size(); i++) {
+        if (*(datos + i) == ';') {
+            separadores++;
+        }
     }
-    bool existeP = existePaciente(id);
-    if (!existeP) {
-        Paciente* paciente = new Paciente(id, nombre, edad, servicio);
-        agregarPaciente(paciente);
+    if (separadores != 3) {
+        cout << "Linea invalida: " << linea << endl;
+        return;
     }
+    stringstream ss(linea);
+    string id;
+    string nombre;
+    string edadString;
+    string servicio;
+
+    getline(ss, id, ';');
+    getline(ss, nombre, ';');
+    getline(ss, edadString, ';');
+    getline(ss, servicio, ';');
+
+    if (id.empty() ||
+        nombre.empty() ||
+        edadString.empty() ||
+        servicio.empty()) {
+
+        cout << "Linea invalida: " << linea << endl;
+        return;
+    }
+    int edad;
+    try {
+        size_t posicion;
+        edad = stoi(edadString, &posicion);
+        if (posicion != edadString.size()) {
+            cout << "Edad invalida: " << edadString << endl;
+            return;
+        }
+    }
+    catch (...) {
+        cout << "Edad invalida: " << edadString << endl;
+        return;
+    }
+    if (edad < 0) {
+        cout << "Edad invalida: " << edadString << endl;
+        return;
+    }
+
+    ServicioMedico* servicioMedico =
+        buscarServicioMedico(servicio);
+    if (servicioMedico == nullptr) {
+
+        cout << "Servicio no valido: "
+             << servicio << endl;
+
+        return;
+    }
+    if (existePaciente(id)) {
+
+        cout << "Paciente duplicado: "
+             << id << endl;
+
+        return;
+    }
+    Paciente* paciente =
+        new Paciente(id, nombre, edad, servicio);
+    agregarPaciente(paciente);
 }
 void Hospital::mostrarPacientes() {
     if (this -> filaEspera-> empty()) {
