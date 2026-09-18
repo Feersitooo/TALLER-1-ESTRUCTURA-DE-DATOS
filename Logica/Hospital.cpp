@@ -11,7 +11,7 @@ Hospital::Hospital() {
 
 }
 ServicioMedico* Hospital::crearServicioMedico(const string& nombre) {
-    if (nombre == "Urgencia") return new Urgencia();
+    if (nombre == "Urgencias") return new Urgencias();
     if (nombre == "Medicina General") return new MedicinaGeneral();
     if (nombre == "Cardiologia") return new Cardiologia();
     if (nombre == "Neurologia") return new Neurologia();
