@@ -71,11 +71,10 @@ public:
 
 
 };
-class Urgencia : public ServicioMedico {
+class Urgencias : public ServicioMedico {
 public:
-    Urgencia() : ServicioMedico("Urgencia") {};
+    Urgencias() : ServicioMedico("Urgencias") {};
 };
-
 class MedicinaGeneral : public ServicioMedico {
 public:
     MedicinaGeneral() : ServicioMedico("Medicina General") {};
