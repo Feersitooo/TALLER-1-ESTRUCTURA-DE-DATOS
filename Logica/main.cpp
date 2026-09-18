@@ -39,7 +39,7 @@ void MenuServicio(Hospital* h) {
                 h->mostrarPacientesServicio("Urgencias");
                 break;
             case 2:
-                h->mostrarPacientesServicio("MedicinaGeneral");
+                h->mostrarPacientesServicio("Medicina General");
                 break;
             case 3:
                 h->mostrarPacientesServicio("Cardiologia");
