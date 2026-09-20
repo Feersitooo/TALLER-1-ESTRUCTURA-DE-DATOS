@@ -45,14 +45,9 @@ ID;Nombre;Edad;Servicio
 
 ## Compilacion
 
-Para compilar el programa utilizando g++, ejecutar desde la carpeta raíz del proyecto:
-
+Para compilar el programa utilizando g++, ejecutar desde la carpeta raíz del proyecto
 
 ## Ejecución
-
-En Windows:
-
-.\hospital.exe
 
 El archivo pacientes.txt debe encontrarse en la misma carpeta desde la cual se ejecuta el programa.
 
