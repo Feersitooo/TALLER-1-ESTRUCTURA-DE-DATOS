@@ -1,73 +1,74 @@
-# Taller 1 - Gestión de Pacientes
+Sistema de gestión de pacientes para un hospital, desarrollado en C++ para el Taller 01 de la asignatura Estructura de Datos.
+
+El programa permite cargar pacientes desde un archivo de texto, administrarlos mediante una cola de espera, atenderlos y derivarlos a los distintos servicios del hospital. Además, permite consultar los pacientes de cada servicio, buscar pacientes por ID y revisar el historial de atención.
 
 ## Integrantes
 
-- Maximiliano Edhin Abd-El-Kader Góngora - 22.128.215-9 - GitHub: YovngKxder - Ingeniería Civil en Computación e Informática
-- Fernando Antonio Herrera Castillo - 22.057.550-0 - GitHub: Feersitooo - Ingeniería Civil en Computación e Informática
-- Matias Ignacio González Gomez - 22.350.340-3 - GitHub: matiasgonzalez15-sys - Ingeniería Civil en Computación e Informática
+- Maximiliano Edhin Abd-El-Kader Góngora (YovngKxder) - 22.128.215-9 - Ingeniería Civil en Computación e Informática
+- Fernando Antonio Herrera Castillo (Feersitooo) - 22.057.550-0 - Ingeniería Civil en Computación e Informática
+- Matias Ignacio González Gomez (matiasgonzalez15-sys) - 22.350.340-3 - Ingeniería Civil en Computación e Informática
 
-## Sobre el proyecto
+## Estructuras implementadas
 
-En este taller hicimos un programa para gestionar los pacientes de un hospital.
+El sistema utiliza estructuras de datos implementadas manualmente mediante punteros y memoria dinámica:
 
-Los pacientes se cargan desde `pacientes.txt` y quedan primero en una fila de espera. Al momento de atenderlos, se respeta el orden de llegada y cada paciente se manda al servicio que le corresponde.
+- **Cola de pacientes:** administra a los pacientes pendientes de atención siguiendo el principio FIFO.
+- **Lista enlazada de servicios:** administra los diferentes servicios disponibles en el hospital.
+- **Lista enlazada de pacientes:** cada servicio mantiene los pacientes que han sido derivados a él.
+- **Pila de historial:** registra las atenciones realizadas siguiendo el principio LIFO.
 
-También se guarda un historial de las personas que ya fueron atendidas.
-
-## Estructuras de datos
-
-Para realizar el programa usamos:
-
-- **Cola:** para la fila de espera de los pacientes (FIFO).
-- **Lista enlazada:** para guardar los servicios y los pacientes de cada servicio.
-- **Pila:** para guardar el historial de atenciones (LIFO).
-
-Los servicios que tiene el hospital son:
-
-- Urgencias
-- Medicina General
-- Cardiologia
-- Neurologia
-- Traumatologia
-- Cirugia
-- Pediatria
-- Hospitalizacion
-
-## Programación Orientada a Objetos
-
-Se creó una clase base llamada `ServicioMedico` y a partir de ella se hicieron las clases de los distintos servicios.
-
-También se trabajó con punteros, memoria dinámica, constructores y destructores.
-
-## Archivo "pacientes.txt"
-
-Los pacientes se ingresan con este formato:
-
-`ID;Nombre;Edad;Servicio`
-
-Ejemplo:
-
-`001;Juan Perez;25;Cardiologia`
-
-El programa revisa que los datos estén correctos y que no existan pacientes repetidos o servicios que no correspondan.
-
-## Menú
+## Funcionalidades
 
 El programa permite:
 
-1. Atender pacientes
-2. Ver departamento
-3. Revisar historial de atención
-4. Buscar paciente
-5. Salir
+- Cargar pacientes desde `pacientes.txt`.
+- Mostrar los pacientes pendientes de atención.
+- Atender una cantidad determinada de pacientes.
+- Derivar cada paciente al servicio correspondiente.
+- Consultar los pacientes de cada servicio.
+- Revisar el historial de atención.
+- Buscar un paciente mediante su ID.
+- Validar datos incorrectos provenientes del archivo de entrada.
+- Controlar entradas inválidas y estructuras vacías.
 
-La opción de búsqueda permite encontrar pacientes tanto si siguen esperando como si ya fueron atendidos.
+## Formato del archivo de entrada
 
-## Cómo ejecutar
+Los pacientes deben almacenarse en el archivo `pacientes.txt` utilizando el siguiente formato:
 
-El proyecto está hecho en C++ y fue desarrollado utilizando CLion y CMake.
+```text
+ID;Nombre;Edad;Servicio
 
-Para ejecutarlo se debe abrir el proyecto en CLion, compilar y ejecutar el programa.
+## Ejemplo
 
-El archivo `pacientes.txt` debe estar disponible para que el programa pueda cargar los pacientes. TALLER-1-ESTRUCTURA-DE-DATOS
-Taller creado por Matías Gonzales, Maximiliano Abd-El-Kader, Fernando Herrera
+001;Juan Perez;25;Cardiologia
+002;Maria Soto;67;Urgencias
+003;Pedro Rojas;43;Cirugia
+
+## Compilacion
+
+Para compilar el programa utilizando g++, ejecutar desde la carpeta raíz del proyecto:
+
+g++ -std=c++20 -Wall -Wextra -pedantic *.cpp -o hospital
+
+## Ejecución
+
+En Windows:
+
+.\hospital.exe
+
+El archivo pacientes.txt debe encontrarse en la misma carpeta desde la cual se ejecuta el programa.
+
+## Servicios disponibles
+
+El hospital cuenta con los siguientes servicios:
+
+* Urgencias
+* Medicina General
+* Cardiología
+* Neurología
+* Traumatología
+* Cirugía
+* Pediatría
+* Hospitalización 
+
+
