@@ -35,7 +35,6 @@ El programa permite:
 
 Los pacientes deben almacenarse en el archivo `pacientes.txt` utilizando el siguiente formato:
 
-```text
 ID;Nombre;Edad;Servicio
 
 ## Ejemplo
@@ -62,13 +61,14 @@ El archivo pacientes.txt debe encontrarse en la misma carpeta desde la cual se e
 
 El hospital cuenta con los siguientes servicios:
 
-* Urgencias
-* Medicina General
-* Cardiología
-* Neurología
-* Traumatología
-* Cirugía
-* Pediatría
-* Hospitalización 
+- Urgencias
+- Medicina General
+- Cardiología
+- Neurología
+- Traumatología
+- Cirugía
+- Pediatría
+- Hospitalización 
 
+```text
 
