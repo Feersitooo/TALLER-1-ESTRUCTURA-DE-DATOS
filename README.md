@@ -47,7 +47,6 @@ ID;Nombre;Edad;Servicio
 
 Para compilar el programa utilizando g++, ejecutar desde la carpeta raíz del proyecto:
 
-g++ -std=c++20 -Wall -Wextra -pedantic *.cpp -o hospital
 
 ## Ejecución
 
