@@ -45,22 +45,45 @@ ID;Nombre;Edad;Servicio
 
 ## Compilacion
 
-Para compilar el programa en Linux con g++, ejecutar desde la carpeta raíz del proyecto:
+Para compilar el programa utilizando g++, ejecutar desde la carpeta raíz del proyecto.
+
+### En Linux
+
+Instalar los requisitos (si no están instalados) y clonar el repositorio:
 
 ```bash
 sudo apt update
 sudo apt install g++ git
 git clone https://github.com/Feersitooo/TALLER-1-ESTRUCTURA-DE-DATOS.git
 cd TALLER-1-ESTRUCTURA-DE-DATOS
-g++ -std=c++20 -IDominio -ILogica Logica/*.cpp -o taller
+```
+
+Compilar:
+
+```bash
+g++ -std=c++20 -IDominio -ILogica Logica/main.cpp Logica/Hospital.cpp Logica/ColaPacientes.cpp Logica/PilaHistorial.cpp -o hospital
+```
+
+### En Windows
+
+```bash
+g++ -std=c++20 -IDominio -ILogica Logica/main.cpp Logica/Hospital.cpp Logica/ColaPacientes.cpp Logica/PilaHistorial.cpp -o hospital.exe
 ```
 
 ## Ejecución
 
 El archivo `pacientes.txt` debe encontrarse en la misma carpeta desde la cual se ejecuta el programa (la raíz del proyecto).
 
+### En Linux
+
 ```bash
-./taller
+./hospital
+```
+
+### En Windows
+
+```bash
+.\hospital.exe
 ```
 
 ## Servicios disponibles
