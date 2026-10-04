@@ -45,11 +45,23 @@ ID;Nombre;Edad;Servicio
 
 ## Compilacion
 
-Para compilar el programa utilizando g++, ejecutar desde la carpeta raíz del proyecto
+Para compilar el programa en Linux con g++, ejecutar desde la carpeta raíz del proyecto:
+
+```bash
+sudo apt update
+sudo apt install g++ git
+git clone https://github.com/Feersitooo/TALLER-1-ESTRUCTURA-DE-DATOS.git
+cd TALLER-1-ESTRUCTURA-DE-DATOS
+g++ -std=c++20 -IDominio -ILogica Logica/*.cpp -o taller
+```
 
 ## Ejecución
 
-El archivo pacientes.txt debe encontrarse en la misma carpeta desde la cual se ejecuta el programa.
+El archivo `pacientes.txt` debe encontrarse en la misma carpeta desde la cual se ejecuta el programa (la raíz del proyecto).
+
+```bash
+./taller
+```
 
 ## Servicios disponibles
 
